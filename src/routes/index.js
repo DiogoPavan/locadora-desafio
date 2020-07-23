@@ -1,13 +1,13 @@
 import { Router } from 'express';
 
-import AuthRoutes from './authRoutes';
-import UserRoutes from './userRoutes';
-import FilmeRoutes from './filmeRoutes';
+import authRoutes from './authRoutes';
+import userRoutes from './userRoutes';
+import filmeRoutes from './filmeRoutes';
 
 const routes = Router();
 
-routes.use('/auth', AuthRoutes);
-routes.use('/users', UserRoutes);
-routes.use('/filmes', FilmeRoutes);
+routes.use('/auth', authRoutes);
+routes.use('/users', userRoutes);
+routes.use('/filmes', filmeRoutes);
 
 export default routes;
