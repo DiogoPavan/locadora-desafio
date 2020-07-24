@@ -74,8 +74,7 @@ Realiza o logoff da aplicação.
 ```javascript
 {
   "message": "Logoff realizado com sucesso",
-  "status": "OK",
-  "data": {}
+  "status": "OK"
 }
 ```
 
@@ -145,7 +144,8 @@ Alugar determinado filme.
   "data": {
     "idFilme": 1,
     "titulo": "Nome do Filme",
-    "diretor": "Diretor do Filme"
+    "diretor": "Diretor do Filme",
+    "copias": 1
   }
 }
 ```
@@ -167,11 +167,6 @@ Devolver filme alugado.
 ```javascript
 {
   "message": "Filme devolvido com sucesso",
-  "status": "OK",
-  "data": {
-    "idFilme": 1,
-    "titulo": "Nome do Filme",
-    "diretor": "Diretor do Filme"
-  }
+  "status": "OK"
 }
 ```

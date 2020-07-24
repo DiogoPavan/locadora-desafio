@@ -1,26 +1,15 @@
-import knex from '../database/connection';
-import bcrypt from 'bcrypt';
+import UserService from '../services/UserService';
 
 class UserController {
-  async create(req, res) {
+  async insert(req, res) {
     const { nome, email, password } = req.body;
-    const hashPassword = await bcrypt.hash(password, 10);
 
-    //validar email antes de inserir
-    const [idUser] = await knex('user').insert({
-      nome,
-      email,
-      password: hashPassword,
-    });
+    const user = await UserService.insert({ nome, email, password });
 
     return res.json({
       message: 'Usuário cadastrado com sucesso',
       status: 'OK',
-      data: {
-        idUser,
-        nome,
-        email,
-      },
+      data: user,
     });
   }
 }
