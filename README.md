@@ -2,6 +2,10 @@
 
 Desafio 4all feito em [Node.js](#https://nodejs.org/)
 
+# Banco de dados
+
+O script para gerar e popular as tabelas está localizado no seguinte caminho: `src/database/locadoradb.sql`
+
 # Endpoints
 
 Lista dos endpoints disponíveis na aplicação.
@@ -78,7 +82,7 @@ Realiza o logoff da aplicação.
 }
 ```
 
-## **Filmes**
+## **FILMES**
 
 Endpoints relacionados aos filmes.
 

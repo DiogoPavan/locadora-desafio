@@ -10,6 +10,10 @@ class UserModel {
     return knex('user').select('*').where({ email }).first();
   }
 
+  async findByToken(token) {
+    return knex('user').select('idUser').where({ token }).first();
+  }
+
   async updateById(idUser, data) {
     return knex('user').update(data).where({ idUser });
   }
