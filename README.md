@@ -105,20 +105,20 @@ Busca os filmes da aplicação.
     "titulo": "Nome do Filme",
     "diretor": "Diretor do Filme",
     "copias": 5,
-    "locados": 3
+    "alocados": 3
   }, {
     "idFilme": 2,
     "titulo": "Nome do Filme 2",
     "diretor": "Diretor do Filme 2",
     "copias": 3,
-    "locados": 3
+    "alocados": 3
   },
   {
     "idFilme": 3,
     "titulo": "Nome do Filme 3",
     "diretor": "Diretor do Filme 3",
     "copias": 4,
-    "locados": 0
+    "alocados": 0
   }]
 }
 ```

@@ -1,3 +1,5 @@
+import knex from '../database/connection';
+
 import FilmeModel from '../models/FilmeModel';
 import LocacaoService from '../services/LocacaoService';
 
@@ -7,9 +9,24 @@ class FilmeService {
   }
 
   async alugar({ idUser, idFilme }) {
-    await LocacaoService.insert({ idUser, idFilme });
+    try {
+      await knex.transaction(async (trx) => {
+        const { copias, alocados } = await FilmeModel.findQuantidadeCopiasAndAlocadosById(
+          { idFilme },
+          trx
+        );
 
-    return FilmeModel.selectById(idFilme);
+        if (copias <= alocados) {
+          throw new Error('Filme não está mais disponível');
+        }
+
+        await LocacaoService.insert({ idUser, idFilme }, trx);
+      });
+
+      return FilmeModel.findById(idFilme);
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   async devolver({ idUser, idFilme }) {

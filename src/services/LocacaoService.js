@@ -1,8 +1,8 @@
 import LocacaoModel from '../models/LocacaoModel';
 
 class LocacaoService {
-  async insert(data) {
-    return LocacaoModel.insert(data);
+  async insert(data, trx) {
+    return LocacaoModel.insert(data, trx);
   }
 
   async deleteByIdFilmeAndIdUser({ idUser, idFilme }) {

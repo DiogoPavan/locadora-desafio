@@ -1,8 +1,20 @@
 import knex from '../database/connection';
 
 class FilmeModel {
-  async selectById(idFilme) {
+  async findById(idFilme) {
     return knex('filme').select('*').where({ idFilme });
+  }
+
+  async findQuantidadeCopiasAndAlocadosById({ idFilme }, trx) {
+    return knex('filme as f')
+      .select('f.idFilme', 'copias')
+      .count('l.idLocacao', { as: 'alocados' })
+      .leftJoin('locacao as l', 'f.idFilme', 'l.idFilme')
+      .where({ 'f.idFilme': idFilme })
+      .groupBy('f.idFilme')
+      .first()
+      .transacting(trx)
+      .forUpdate();
   }
 
   async findAll({ titulo, disponivel }) {
@@ -13,7 +25,7 @@ class FilmeModel {
     return filmes[0];
   }
 
-  buildSqlFindAll() {
+  buildSqlFindAll({ titulo, disponivel }) {
     let tituloQuery = '';
     let disponivelQuery = '';
 
@@ -23,7 +35,7 @@ class FilmeModel {
 
     if (typeof disponivel !== 'undefined') {
       disponivelQuery =
-        disponivel == 'true' ? 'HAVING locados < copias' : ' HAVING locados = f.copias';
+        disponivel == 'true' ? 'HAVING alocados < copias' : ' HAVING alocados = f.copias';
     }
 
     return `
@@ -32,7 +44,7 @@ class FilmeModel {
         f.titulo,
         f.diretor,
         f.copias,
-        COUNT(l.idLocacao) AS locados
+        COUNT(l.idLocacao) AS alocados
       FROM
         filme f
       LEFT JOIN

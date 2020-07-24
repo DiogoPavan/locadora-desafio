@@ -1,8 +1,8 @@
 import knex from '../database/connection';
 
 class LocacaoModel {
-  async insert(data) {
-    const [idLocacao] = await knex('locacao').insert(data);
+  async insert(data, trx) {
+    const [idLocacao] = await knex('locacao').insert(data).transacting(trx);
     return idLocacao;
   }
 
