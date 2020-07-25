@@ -1,7 +1,7 @@
 import { verify } from 'jsonwebtoken';
 import status from 'http-status';
 
-import authConfig from '../config/auth';
+import authConfig from '../config/authConfig';
 import UserModel from '../models/UserModel';
 import ApiError from '../utils/ApiError';
 

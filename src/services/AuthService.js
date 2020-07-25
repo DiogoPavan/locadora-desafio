@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import authConfig from '../config/auth';
+import authConfig from '../config/authConfig';
 import UserModel from '../models/UserModel';
 import ApiError from '../utils/ApiError';
 
