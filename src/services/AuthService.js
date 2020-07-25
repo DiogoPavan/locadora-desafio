@@ -1,17 +1,19 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import authConfig from '../config/auth';
 
+import authConfig from '../config/auth';
 import UserModel from '../models/UserModel';
 import ApiError from '../utils/ApiError';
 
 class AuthService {
   async login({ email, password }) {
-    const { idUser, nome, password: userPassword } = await UserModel.findByEmail(email);
+    const user = await UserModel.findByEmail(email);
 
-    if (!idUser) {
+    if (!user) {
       throw new ApiError('Usuário não existe na base');
     }
+
+    const { idUser, nome, password: userPassword } = user;
 
     if (!(await bcrypt.compare(password, userPassword))) {
       throw new ApiError('Senha incorreta');

@@ -32,7 +32,6 @@ class FilmeService {
 
       return filme;
     } catch (error) {
-      console.log(error);
       throw new ApiError(error.message, error.statusCode);
     }
   }
