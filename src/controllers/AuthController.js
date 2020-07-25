@@ -1,3 +1,5 @@
+import status from 'http-status';
+
 import AuthService from '../services/AuthService';
 
 class AuthController {
@@ -6,9 +8,8 @@ class AuthController {
 
     const user = await AuthService.login({ email, password });
 
-    return res.status(200).send({
+    return res.status(status.OK).send({
       message: 'Login realizado com sucesso',
-      status: 'OK',
       data: user,
     });
   }
@@ -18,7 +19,7 @@ class AuthController {
 
     await AuthService.logoff(idUser);
 
-    return res.send({ message: 'Logoff realizado com sucesso', status: 'OK' });
+    return res.status(status.OK).send({ message: 'Logoff realizado com sucesso' });
   }
 }
 

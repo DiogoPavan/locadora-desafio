@@ -1,3 +1,5 @@
+import status from 'http-status';
+
 import UserService from '../services/UserService';
 
 class UserController {
@@ -6,9 +8,8 @@ class UserController {
 
     const user = await UserService.insert({ nome, email, password });
 
-    return res.json({
+    return res.status(status.CREATED).send({
       message: 'Usuário cadastrado com sucesso',
-      status: 'OK',
       data: user,
     });
   }

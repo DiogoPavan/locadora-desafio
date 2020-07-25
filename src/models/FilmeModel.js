@@ -5,6 +5,14 @@ class FilmeModel {
     return knex('filme').select('*').where({ idFilme }).first();
   }
 
+  async findAll({ titulo, disponivel }) {
+    const sqlFindAll = this.buildSqlFindAll({ titulo, disponivel });
+
+    const filmes = await knex.raw(sqlFindAll);
+
+    return filmes[0];
+  }
+
   async findQuantidadeCopiasAndAlocadosById({ idFilme }, trx) {
     return knex('filme as f')
       .select('f.idFilme', 'copias')
@@ -17,26 +25,9 @@ class FilmeModel {
       .forUpdate();
   }
 
-  async findAll({ titulo, disponivel }) {
-    const sqlFindAll = this.buildSqlFindAll({ titulo, disponivel });
-
-    const filmes = await knex.raw(sqlFindAll);
-
-    return filmes[0];
-  }
-
   buildSqlFindAll({ titulo, disponivel }) {
-    let tituloQuery = '';
-    let disponivelQuery = '';
-
-    if (titulo) {
-      tituloQuery = `WHERE f.titulo LIKE '%${titulo}%'`;
-    }
-
-    if (typeof disponivel !== 'undefined') {
-      disponivelQuery =
-        disponivel == 'true' ? 'HAVING alocados < copias' : ' HAVING alocados = f.copias';
-    }
+    const tituloQuery = this.getTituloSql(titulo);
+    const disponivelQuery = this.getDisponivelSql(disponivel);
 
     return `
       SELECT
@@ -54,6 +45,30 @@ class FilmeModel {
         f.idFilme
       ${disponivelQuery}
     `;
+  }
+
+  getTituloSql(titulo) {
+    let tituloQuery = '';
+
+    if (titulo) {
+      tituloQuery = `WHERE f.titulo LIKE '%${titulo}%'`;
+    }
+
+    return tituloQuery;
+  }
+
+  getDisponivelSql(disponivel) {
+    let disponivelQuery = '';
+
+    if (disponivel == 'true') {
+      disponivelQuery = 'HAVING alocados < copias';
+    }
+
+    if (disponivel == 'false') {
+      disponivelQuery = 'HAVING alocados = f.copias';
+    }
+
+    return disponivelQuery;
   }
 }
 

@@ -1,21 +1,22 @@
 import knex from '../database/connection';
 
+import ApiError from '../utils/ApiError';
 import FilmeModel from '../models/FilmeModel';
 import LocacaoService from '../services/LocacaoService';
 
 class FilmeService {
-  async buscarFilmes({ titulo, disponivel }) {
+  async findAll({ titulo, disponivel }) {
     return FilmeModel.findAll({ titulo, disponivel });
   }
 
   async alugar({ idUser, idFilme }) {
-    const filme = await FilmeModel.findById(idFilme);
-
-    if (!filme) {
-      throw new Error('Filme não existe na base de dados');
-    }
-
     try {
+      const filme = await FilmeModel.findById(idFilme);
+
+      if (!filme) {
+        throw new ApiError('Filme não existe na base de dados');
+      }
+
       await knex.transaction(async (trx) => {
         const { copias, alocados } = await FilmeModel.findQuantidadeCopiasAndAlocadosById(
           { idFilme },
@@ -23,7 +24,7 @@ class FilmeService {
         );
 
         if (copias <= alocados) {
-          throw new Error('Filme não está mais disponível');
+          throw new ApiError('Filme não está mais disponível');
         }
 
         await LocacaoService.insert({ idUser, idFilme }, trx);
@@ -31,7 +32,8 @@ class FilmeService {
 
       return filme;
     } catch (error) {
-      throw new Error(error.message);
+      console.log(error);
+      throw new ApiError(error.message, error.statusCode);
     }
   }
 

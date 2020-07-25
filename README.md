@@ -29,7 +29,6 @@ Realiza o cadastro de novos usuários.
 ```javascript
 {
   "message": "Usuário cadastrado com sucesso",
-  "status": "OK",
   "data": {
     "idUser": 1,
     "nome": "Nome do usuário",
@@ -56,7 +55,6 @@ Realiza o login na aplicação.
 ```javascript
 {
   "message": "Login realizado com sucesso",
-  "status": "OK",
   "data": {
     "idUser": 1,
     "nome": "Nome do usuário",
@@ -78,7 +76,6 @@ Realiza o logoff da aplicação.
 ```javascript
 {
   "message": "Logoff realizado com sucesso",
-  "status": "OK"
 }
 ```
 
@@ -103,7 +100,6 @@ Busca os filmes da aplicação.
 
 ```javascript
 {
-  "status": "OK",
   "data": [{
     "idFilme": 1,
     "titulo": "Nome do Filme",
@@ -144,7 +140,6 @@ Alugar determinado filme.
 ```javascript
 {
   "message": "Filme alugado com sucesso",
-  "status": "OK",
   "data": {
     "idFilme": 1,
     "titulo": "Nome do Filme",
@@ -171,6 +166,5 @@ Devolver filme alugado.
 ```javascript
 {
   "message": "Filme devolvido com sucesso",
-  "status": "OK"
 }
 ```

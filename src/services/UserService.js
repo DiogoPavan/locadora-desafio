@@ -1,4 +1,6 @@
 import bcrypt from 'bcrypt';
+
+import ApiError from '../utils/ApiError';
 import UserModel from '../models/UserModel';
 
 class UserService {
@@ -6,7 +8,7 @@ class UserService {
     const userExists = await UserModel.findByEmail(email);
 
     if (userExists) {
-      throw new Error('Email já usado por outro Usuário');
+      throw new ApiError('Email já usado por outro Usuário');
     }
 
     const hashPassword = await bcrypt.hash(password, 10);

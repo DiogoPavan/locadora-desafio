@@ -1,12 +1,14 @@
+import status from 'http-status';
+
 import FilmeService from '../services/FilmeService';
 
 class FilmeController {
-  async buscarFilmes(req, res) {
+  async findAll(req, res) {
     const { titulo, disponivel } = req.query;
 
-    const filmes = await FilmeService.buscarFilmes({ titulo, disponivel });
+    const filmes = await FilmeService.findAll({ titulo, disponivel });
 
-    return res.json({ status: 'ok', data: filmes });
+    return res.status(status.OK).send({ data: filmes });
   }
 
   async alugar(req, res) {
@@ -15,9 +17,8 @@ class FilmeController {
 
     const filme = await FilmeService.alugar({ idUser: idUserLogado, idFilme });
 
-    return res.json({
+    return res.status(status.OK).send({
       message: 'Filme alugado com sucesso',
-      status: 'OK',
       data: filme,
     });
   }
@@ -28,7 +29,7 @@ class FilmeController {
 
     await FilmeService.devolver({ idUser: idUserLogado, idFilme });
 
-    return res.json({ message: 'Filme devolvido com sucesso', status: 'OK' });
+    return res.status(status.OK).send({ message: 'Filme devolvido com sucesso' });
   }
 }
 
