@@ -1,6 +1,6 @@
 # Locadora - Desafio
 
-Desafio 4all feito em [Node.js](#https://nodejs.org/)
+Desafio da locadora feito em [Node.js](#https://nodejs.org/)
 
 # Banco de dados
 
