@@ -9,6 +9,12 @@ class FilmeService {
   }
 
   async alugar({ idUser, idFilme }) {
+    const filme = await FilmeModel.findById(idFilme);
+
+    if (!filme) {
+      throw new Error('Filme não existe na base de dados');
+    }
+
     try {
       await knex.transaction(async (trx) => {
         const { copias, alocados } = await FilmeModel.findQuantidadeCopiasAndAlocadosById(
@@ -23,7 +29,7 @@ class FilmeService {
         await LocacaoService.insert({ idUser, idFilme }, trx);
       });
 
-      return FilmeModel.findById(idFilme);
+      return filme;
     } catch (error) {
       throw new Error(error.message);
     }

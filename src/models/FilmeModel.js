@@ -2,7 +2,7 @@ import knex from '../database/connection';
 
 class FilmeModel {
   async findById(idFilme) {
-    return knex('filme').select('*').where({ idFilme });
+    return knex('filme').select('*').where({ idFilme }).first();
   }
 
   async findQuantidadeCopiasAndAlocadosById({ idFilme }, trx) {
