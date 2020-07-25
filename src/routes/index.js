@@ -10,8 +10,6 @@ const routes = Router();
 
 routes.use('/auth', authRoutes);
 routes.use('/users', userRoutes);
-
-routes.use(authMiddleware);
-routes.use('/filmes', filmeRoutes);
+routes.use('/filmes', authMiddleware, filmeRoutes);
 
 export default routes;
