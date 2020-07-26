@@ -5,6 +5,10 @@ class LocacaoService {
     return LocacaoModel.insert(data, trx);
   }
 
+  async findByIdFilmeAndIdUser({ idUser, idFilme }) {
+    return await LocacaoModel.findByIdFilmeAndIdUser({ idUser, idFilme });
+  }
+
   async deleteByIdFilmeAndIdUser({ idUser, idFilme }) {
     await LocacaoModel.deleteByIdFilmeAndIdUser({ idUser, idFilme });
   }

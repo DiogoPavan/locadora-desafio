@@ -6,6 +6,10 @@ class LocacaoModel {
     return idLocacao;
   }
 
+  async findByIdFilmeAndIdUser({ idUser, idFilme }) {
+    return knex('locacao').select('*').where({ idUser, idFilme }).first();
+  }
+
   async deleteByIdFilmeAndIdUser({ idUser, idFilme }) {
     await knex('locacao').delete().where({ idUser, idFilme });
   }
