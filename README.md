@@ -1,6 +1,6 @@
 # Locadora - Desafio
 
-Desafio 4all feito em [Node.js](#https://nodejs.org/)
+Desafio da locadora feito em [Node.js](#https://nodejs.org/)
 
 # Banco de dados
 
@@ -93,7 +93,7 @@ Busca os filmes da aplicação.
 
 **Query**
 
-- disponivel (opcional): string. Se não for informado, buscará todos os filmes da aplicação, indiferente se está disponível ou não. Se for `true` irá busca apenas os filmes que estão disponíveis para locação. Se for `false` irá buscar os filmes que não estão disponíveis para locação.
+- disponivel (opcional): string. Se não for informado, buscará todos os filmes da aplicação, indiferente se está disponível ou não. Se for `true` irá buscar apenas os filmes que estão disponíveis para locação. Se for `false` irá buscar os filmes que não estão disponíveis para locação.
 - titulo (opcional): string. Buscará os filmes pelo título.
 
 **Retorno API**
