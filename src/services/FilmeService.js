@@ -19,7 +19,7 @@ class FilmeService {
 
       await knex.transaction(async (trx) => {
         const { copias, alocados } = await FilmeModel.findQuantidadeCopiasAndAlocadosById(
-          { idFilme },
+          idFilme,
           trx
         );
 

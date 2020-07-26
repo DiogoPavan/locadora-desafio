@@ -6,14 +6,14 @@ class FilmeModel {
   }
 
   async findAll({ titulo, disponivel }) {
-    const sqlFindAll = this.buildSqlFindAll({ titulo, disponivel });
+    const sqlFindAll = this.#buildSqlFindAll({ titulo, disponivel });
 
     const filmes = await knex.raw(sqlFindAll);
 
     return filmes[0];
   }
 
-  async findQuantidadeCopiasAndAlocadosById({ idFilme }, trx) {
+  async findQuantidadeCopiasAndAlocadosById(idFilme, trx) {
     return knex('filme as f')
       .select('f.idFilme', 'copias')
       .count('l.idLocacao', { as: 'alocados' })
@@ -25,9 +25,9 @@ class FilmeModel {
       .forUpdate();
   }
 
-  buildSqlFindAll({ titulo, disponivel }) {
-    const tituloQuery = this.getTituloSql(titulo);
-    const disponivelQuery = this.getDisponivelSql(disponivel);
+  #buildSqlFindAll({ titulo, disponivel }) {
+    const tituloQuery = this.#getTituloSql(titulo);
+    const disponivelQuery = this.#getDisponivelSql(disponivel);
 
     return `
       SELECT
@@ -47,7 +47,7 @@ class FilmeModel {
     `;
   }
 
-  getTituloSql(titulo) {
+  #getTituloSql(titulo) {
     let tituloQuery = '';
 
     if (titulo) {
@@ -57,7 +57,7 @@ class FilmeModel {
     return tituloQuery;
   }
 
-  getDisponivelSql(disponivel) {
+  #getDisponivelSql(disponivel) {
     let disponivelQuery = '';
 
     if (disponivel == 'true') {
