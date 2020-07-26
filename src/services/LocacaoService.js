@@ -1,12 +1,16 @@
 import LocacaoModel from '../models/LocacaoModel';
+import ApiError from '../utils/ApiError';
 
 class LocacaoService {
   async insert(data, trx) {
-    return LocacaoModel.insert(data, trx);
-  }
+    const { idUser, idFilme } = data;
+    const locacao = await LocacaoModel.findByIdFilmeAndIdUser({ idUser, idFilme }, trx);
 
-  async findByIdFilmeAndIdUser({ idUser, idFilme }) {
-    return await LocacaoModel.findByIdFilmeAndIdUser({ idUser, idFilme });
+    if (locacao) {
+      throw new ApiError('Filme já alocado por você');
+    }
+
+    return LocacaoModel.insert(data, trx);
   }
 
   async deleteByIdFilmeAndIdUser({ idUser, idFilme }) {

@@ -17,12 +17,6 @@ class FilmeService {
         throw new ApiError('Filme não existe na base de dados');
       }
 
-      const locacao = await LocacaoService.findByIdFilmeAndIdUser({ idUser, idFilme });
-
-      if (locacao) {
-        throw new ApiError('Filme já alocado por você');
-      }
-
       await knex.transaction(async (trx) => {
         const { copias, alocados } = await FilmeModel.findQuantidadeCopiasAndAlocadosById(
           { idFilme },
