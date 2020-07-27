@@ -6,7 +6,17 @@ Desafio da locadora feito em [Node.js](#https://nodejs.org/)
 
 O script para gerar e popular as tabelas está localizado no seguinte caminho: `src/database/locadoradb.sql`
 
-# Endpoints
+# Rodar o Projeto
+
+Para rodar o projeto deve-se:
+
+- Clonar o projeto
+- Criar o banco de dados com o script citado anteriormente
+- Criar o arquivo `.env` baseado no `.env.example` e com as informações do seu respectivo banco MySQL
+- Rodar o comando `npm install`
+- Rodar `npm run dev`
+
+# Documentação dos Endpoints
 
 Lista dos endpoints disponíveis na aplicação.
 
