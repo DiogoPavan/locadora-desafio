@@ -1,11 +1,14 @@
 import bcrypt from 'bcrypt';
 
 import ApiError from '../utils/ApiError';
-import UserModel from '../models/UserModel';
 
 class UserService {
+  constructor(container) {
+    this.userModel = container.get('UserModel');
+  }
+
   async insert({ nome, email, password }) {
-    const userExists = await UserModel.findByEmail(email);
+    const userExists = await this.userModel.findByEmail(email);
 
     if (userExists) {
       throw new ApiError('Email já usado por outro Usuário');
@@ -13,7 +16,7 @@ class UserService {
 
     const hashPassword = await bcrypt.hash(password, 10);
 
-    const idUser = await UserModel.insert({
+    const idUser = await this.userModel.insert({
       nome,
       email,
       password: hashPassword,
@@ -27,4 +30,4 @@ class UserService {
   }
 }
 
-export default new UserService();
+export default UserService;

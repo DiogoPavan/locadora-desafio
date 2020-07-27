@@ -1,8 +1,8 @@
 import { verify } from 'jsonwebtoken';
 import status from 'http-status';
+import Container from 'typedi';
 
 import authConfig from '../config/authConfig';
-import UserModel from '../models/UserModel';
 import ApiError from '../utils/ApiError';
 
 export default async function authMiddleware(req, res, next) {
@@ -13,7 +13,8 @@ export default async function authMiddleware(req, res, next) {
   }
 
   const [, token] = authHeader.split(' ');
-  const user = await UserModel.findByToken(token);
+  const userModel = Container.get('UserModel');
+  const user = await userModel.findByToken(token);
 
   if (!user) {
     throw new ApiError('Token inválido! Não há usuário com o token informado', status.UNAUTHORIZED);

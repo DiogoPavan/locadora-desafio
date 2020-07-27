@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import { celebrate, Segments } from 'celebrate';
+import Container from 'typedi';
 
 import authMiddleware from '../middleware/authMiddleware';
-import AuthController from '../controllers/AuthController';
 import authSchema from '../schemas/authSchema';
 import joiConfig from '../config/joiConfig';
 
 const authRoute = Router();
+const authController = Container.get('AuthController');
 
 authRoute.post(
   '/login',
@@ -16,8 +17,9 @@ authRoute.post(
     },
     joiConfig
   ),
-  AuthController.login
+  authController.login.bind(authController)
 );
-authRoute.post('/logoff', authMiddleware, AuthController.logoff);
+
+authRoute.post('/logoff', authMiddleware, authController.logoff.bind(authController));
 
 export default authRoute;

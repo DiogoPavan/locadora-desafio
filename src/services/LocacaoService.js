@@ -1,21 +1,24 @@
-import LocacaoModel from '../models/LocacaoModel';
 import ApiError from '../utils/ApiError';
 
 class LocacaoService {
+  constructor(container) {
+    this.locacaoModel = container.get('LocacaoModel');
+  }
+
   async insert(data, trx) {
     const { idUser, idFilme } = data;
-    const locacao = await LocacaoModel.findByIdFilmeAndIdUser({ idUser, idFilme }, trx);
+    const locacao = await this.locacaoModel.findByIdFilmeAndIdUser({ idUser, idFilme }, trx);
 
     if (locacao) {
       throw new ApiError('Filme já alocado por você');
     }
 
-    return LocacaoModel.insert(data, trx);
+    return this.locacaoModel.insert(data, trx);
   }
 
   async deleteByIdFilmeAndIdUser({ idUser, idFilme }) {
-    await LocacaoModel.deleteByIdFilmeAndIdUser({ idUser, idFilme });
+    await this.locacaoModel.deleteByIdFilmeAndIdUser({ idUser, idFilme });
   }
 }
 
-export default new LocacaoService();
+export default LocacaoService;

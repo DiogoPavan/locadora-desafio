@@ -15,4 +15,4 @@ class LocacaoModel {
   }
 }
 
-export default new LocacaoModel();
+export default LocacaoModel;

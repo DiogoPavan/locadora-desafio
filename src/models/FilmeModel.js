@@ -72,4 +72,4 @@ class FilmeModel {
   }
 }
 
-export default new FilmeModel();
+export default FilmeModel;

@@ -1,24 +1,27 @@
 import knex from '../database/connection';
 
 import ApiError from '../utils/ApiError';
-import FilmeModel from '../models/FilmeModel';
-import LocacaoService from '../services/LocacaoService';
 
 class FilmeService {
+  constructor(container) {
+    this.filmeModel = container.get('FilmeModel');
+    this.locacaoService = container.get('LocacaoService');
+  }
+
   async findAll({ titulo, disponivel }) {
-    return FilmeModel.findAll({ titulo, disponivel });
+    return this.filmeModel.findAll({ titulo, disponivel });
   }
 
   async alugar({ idUser, idFilme }) {
     try {
-      const filme = await FilmeModel.findById(idFilme);
+      const filme = await this.filmeModel.findById(idFilme);
 
       if (!filme) {
         throw new ApiError('Filme não existe na base de dados');
       }
 
       await knex.transaction(async (trx) => {
-        const { copias, alocados } = await FilmeModel.findQuantidadeCopiasAndAlocadosById(
+        const { copias, alocados } = await this.filmeModel.findQuantidadeCopiasAndAlocadosById(
           idFilme,
           trx
         );
@@ -27,7 +30,7 @@ class FilmeService {
           throw new ApiError('Filme não está mais disponível');
         }
 
-        await LocacaoService.insert({ idUser, idFilme }, trx);
+        await this.locacaoService.insert({ idUser, idFilme }, trx);
       });
 
       return filme;
@@ -37,8 +40,8 @@ class FilmeService {
   }
 
   async devolver({ idUser, idFilme }) {
-    await LocacaoService.deleteByIdFilmeAndIdUser({ idUser, idFilme });
+    await this.locacaoService.deleteByIdFilmeAndIdUser({ idUser, idFilme });
   }
 }
 
-export default new FilmeService();
+export default FilmeService;

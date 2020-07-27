@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import { celebrate, Segments } from 'celebrate';
+import Container from 'typedi';
 
-import UserController from '../controllers/UserController';
 import userSchema from '../schemas/userSchema';
 import joiConfig from '../config/joiConfig';
 
 const userRoutes = Router();
+const userController = Container.get('UserController');
 
 userRoutes.post(
   '/',
@@ -15,7 +16,7 @@ userRoutes.post(
     },
     joiConfig
   ),
-  UserController.insert
+  userController.insert.bind(userController)
 );
 
 export default userRoutes;

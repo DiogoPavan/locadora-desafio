@@ -1,12 +1,14 @@
 import status from 'http-status';
 
-import FilmeService from '../services/FilmeService';
-
 class FilmeController {
+  constructor(container) {
+    this.filmeService = container.get('FilmeService');
+  }
+
   async findAll(req, res) {
     const { titulo, disponivel } = req.query;
 
-    const filmes = await FilmeService.findAll({ titulo, disponivel });
+    const filmes = await this.filmeService.findAll({ titulo, disponivel });
 
     return res.status(status.OK).send({ data: filmes });
   }
@@ -15,7 +17,7 @@ class FilmeController {
     const { idUserLogado } = req;
     const { idFilme } = req.body;
 
-    const filme = await FilmeService.alugar({ idUser: idUserLogado, idFilme });
+    const filme = await this.filmeService.alugar({ idUser: idUserLogado, idFilme });
 
     return res.status(status.OK).send({
       message: 'Filme alugado com sucesso',
@@ -27,10 +29,10 @@ class FilmeController {
     const { idUserLogado } = req;
     const { idFilme } = req.body;
 
-    await FilmeService.devolver({ idUser: idUserLogado, idFilme });
+    await this.filmeService.devolver({ idUser: idUserLogado, idFilme });
 
     return res.status(status.OK).send({ message: 'Filme devolvido com sucesso' });
   }
 }
 
-export default new FilmeController();
+export default FilmeController;
