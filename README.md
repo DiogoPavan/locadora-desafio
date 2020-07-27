@@ -2,7 +2,7 @@
 
 Desafio da locadora feito em [Node.js](#https://nodejs.org/)
 
-# Banco de dados
+# Banco de Dados
 
 O script para gerar e popular as tabelas está localizado no seguinte caminho: `src/database/locadoradb.sql`
 
