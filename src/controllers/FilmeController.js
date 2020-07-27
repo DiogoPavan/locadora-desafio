@@ -1,8 +1,10 @@
 import status from 'http-status';
 
+import FilmeService from '../services/FilmeService';
+
 class FilmeController {
   constructor(container) {
-    this.filmeService = container.get('FilmeService');
+    this.filmeService = container.get(FilmeService);
   }
 
   async findAll(req, res) {
@@ -17,7 +19,7 @@ class FilmeController {
     const { idUserLogado } = req;
     const { idFilme } = req.body;
 
-    const filme = await this.filmeService.alugar({ idUser: idUserLogado, idFilme });
+    const filme = await this.filmeService.alugar(idFilme, idUserLogado);
 
     return res.status(status.OK).send({
       message: 'Filme alugado com sucesso',
@@ -29,7 +31,7 @@ class FilmeController {
     const { idUserLogado } = req;
     const { idFilme } = req.body;
 
-    await this.filmeService.devolver({ idUser: idUserLogado, idFilme });
+    await this.filmeService.devolver(idFilme, idUserLogado);
 
     return res.status(status.OK).send({ message: 'Filme devolvido com sucesso' });
   }

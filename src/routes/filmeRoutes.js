@@ -4,9 +4,10 @@ import Container from 'typedi';
 
 import filmeSchema from '../schemas/filmeSchema';
 import joiConfig from '../config/joiConfig';
+import FilmeController from '../controllers/FilmeController';
 
 const filmeRoutes = Router();
-const filmeController = Container.get('FilmeController');
+const filmeController = Container.get(FilmeController);
 
 filmeRoutes.get('/', filmeController.findAll.bind(filmeController));
 

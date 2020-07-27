@@ -1,10 +1,11 @@
 import bcrypt from 'bcrypt';
 
 import ApiError from '../utils/ApiError';
+import UserModel from '../models/UserModel';
 
 class UserService {
   constructor(container) {
-    this.userModel = container.get('UserModel');
+    this.userModel = container.get(UserModel);
   }
 
   async insert({ nome, email, password }) {
@@ -27,6 +28,18 @@ class UserService {
       nome,
       email,
     };
+  }
+
+  async updateById(idUser, data) {
+    return this.userModel.updateById(idUser, data);
+  }
+
+  async findByEmail(email) {
+    return this.userModel.findByEmail(email);
+  }
+
+  async findByToken(token) {
+    return this.userModel.findByToken(token);
   }
 }
 

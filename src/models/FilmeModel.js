@@ -5,14 +5,6 @@ class FilmeModel {
     return knex('filme').select('*').where({ idFilme }).first();
   }
 
-  async findAll({ titulo, disponivel }) {
-    const sqlFindAll = this.#buildSqlFindAll({ titulo, disponivel });
-
-    const filmes = await knex.raw(sqlFindAll);
-
-    return filmes[0];
-  }
-
   async findQuantidadeCopiasAndAlocadosById(idFilme, trx) {
     return knex('filme as f')
       .select('f.idFilme', 'copias')
@@ -23,6 +15,14 @@ class FilmeModel {
       .first()
       .transacting(trx)
       .forUpdate();
+  }
+
+  async findAll({ titulo, disponivel }) {
+    const sqlFindAll = this.#buildSqlFindAll({ titulo, disponivel });
+
+    const filmes = await knex.raw(sqlFindAll);
+
+    return filmes[0];
   }
 
   #buildSqlFindAll({ titulo, disponivel }) {

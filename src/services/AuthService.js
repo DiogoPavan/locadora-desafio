@@ -4,13 +4,15 @@ import jwt from 'jsonwebtoken';
 import authConfig from '../config/authConfig';
 import ApiError from '../utils/ApiError';
 
+import UserService from '../services/UserService';
+
 class AuthService {
   constructor(container) {
-    this.userModel = container.get('UserModel');
+    this.userService = container.get(UserService);
   }
 
-  async login({ email, password }) {
-    const user = await this.userModel.findByEmail(email);
+  async login(email, password) {
+    const user = await this.userService.findByEmail(email);
 
     if (!user) {
       throw new ApiError('Usuário não existe na base');
@@ -26,7 +28,7 @@ class AuthService {
       expiresIn: authConfig.expiresIn,
     });
 
-    await this.userModel.updateById(idUser, { token });
+    await this.userService.updateById(idUser, { token });
 
     return {
       idUser,
@@ -36,7 +38,7 @@ class AuthService {
   }
 
   async logoff(idUser) {
-    await this.userModel.updateById(idUser, { token: null });
+    await this.userService.updateById(idUser, { token: null });
   }
 }
 

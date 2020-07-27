@@ -3,7 +3,6 @@ import express from 'express';
 import 'express-async-errors';
 import cors from 'cors';
 
-import './utils/Container';
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware';
 import routes from './routes';
 

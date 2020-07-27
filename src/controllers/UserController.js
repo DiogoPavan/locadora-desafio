@@ -1,8 +1,10 @@
 import status from 'http-status';
 
+import UserService from '../services/UserService';
+
 class UserController {
   constructor(container) {
-    this.userService = container.get('UserService');
+    this.userService = container.get(UserService);
   }
 
   async insert(req, res) {

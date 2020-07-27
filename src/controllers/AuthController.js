@@ -1,13 +1,15 @@
 import status from 'http-status';
 
+import AuthService from '../services/AuthService';
+
 class AuthController {
   constructor(container) {
-    this.authService = container.get('AuthService');
+    this.authService = container.get(AuthService);
   }
 
   async login(req, res) {
     const { email, password } = req.body;
-    const user = await this.authService.login({ email, password });
+    const user = await this.authService.login(email, password);
 
     return res.status(status.OK).send({
       message: 'Login realizado com sucesso',

@@ -5,9 +5,10 @@ import Container from 'typedi';
 import authMiddleware from '../middleware/authMiddleware';
 import authSchema from '../schemas/authSchema';
 import joiConfig from '../config/joiConfig';
+import AuthController from '../controllers/AuthController';
 
 const authRoute = Router();
-const authController = Container.get('AuthController');
+const authController = Container.get(AuthController);
 
 authRoute.post(
   '/login',

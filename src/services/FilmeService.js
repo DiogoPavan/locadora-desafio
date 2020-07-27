@@ -1,18 +1,20 @@
 import knex from '../database/connection';
 
 import ApiError from '../utils/ApiError';
+import FilmeModel from '../models/FilmeModel';
+import LocacaoService from '../services/LocacaoService';
 
 class FilmeService {
   constructor(container) {
-    this.filmeModel = container.get('FilmeModel');
-    this.locacaoService = container.get('LocacaoService');
+    this.filmeModel = container.get(FilmeModel);
+    this.locacaoService = container.get(LocacaoService);
   }
 
   async findAll({ titulo, disponivel }) {
     return this.filmeModel.findAll({ titulo, disponivel });
   }
 
-  async alugar({ idUser, idFilme }) {
+  async alugar(idFilme, idUser) {
     try {
       const filme = await this.filmeModel.findById(idFilme);
 
@@ -39,8 +41,8 @@ class FilmeService {
     }
   }
 
-  async devolver({ idUser, idFilme }) {
-    await this.locacaoService.deleteByIdFilmeAndIdUser({ idUser, idFilme });
+  async devolver(idFilme, idUser) {
+    await this.locacaoService.deleteByIdFilmeAndIdUser(idFilme, idUser);
   }
 }
 

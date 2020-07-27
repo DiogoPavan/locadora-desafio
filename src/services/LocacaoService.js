@@ -1,8 +1,10 @@
 import ApiError from '../utils/ApiError';
 
+import LocacaoModel from '../models/LocacaoModel';
+
 class LocacaoService {
   constructor(container) {
-    this.locacaoModel = container.get('LocacaoModel');
+    this.locacaoModel = container.get(LocacaoModel);
   }
 
   async insert(data, trx) {
@@ -16,8 +18,8 @@ class LocacaoService {
     return this.locacaoModel.insert(data, trx);
   }
 
-  async deleteByIdFilmeAndIdUser({ idUser, idFilme }) {
-    await this.locacaoModel.deleteByIdFilmeAndIdUser({ idUser, idFilme });
+  async deleteByIdFilmeAndIdUser(idFilme, idUser) {
+    await this.locacaoModel.deleteByIdFilmeAndIdUser(idFilme, idUser);
   }
 }
 

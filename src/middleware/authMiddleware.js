@@ -4,6 +4,7 @@ import Container from 'typedi';
 
 import authConfig from '../config/authConfig';
 import ApiError from '../utils/ApiError';
+import UserService from '../services/UserService';
 
 export default async function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
@@ -13,8 +14,8 @@ export default async function authMiddleware(req, res, next) {
   }
 
   const [, token] = authHeader.split(' ');
-  const userModel = Container.get('UserModel');
-  const user = await userModel.findByToken(token);
+  const userService = Container.get(UserService);
+  const user = await userService.findByToken(token);
 
   if (!user) {
     throw new ApiError('Token inválido! Não há usuário com o token informado', status.UNAUTHORIZED);
